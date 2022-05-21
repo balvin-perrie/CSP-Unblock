@@ -1,0 +1,14 @@
+[{
+  "id": 1,
+  "priority": 1,
+  "action": {
+    "type": "modifyHeaders",
+    "responseHeaders": [{
+      "operation": "remove",
+      "header": "x-webkit-csp"
+    }]
+  },
+  "condition": {
+    "resourceTypes": ["main_frame", "sub_frame"]
+  }
+}]

@@ -1,0 +1,14 @@
+[{
+  "id": 1,
+  "priority": 1,
+  "action": {
+    "type": "modifyHeaders",
+    "responseHeaders": [{
+      "operation": "remove",
+      "header": "content-security-policy-report-only"
+    }]
+  },
+  "condition": {
+    "resourceTypes": ["main_frame", "sub_frame"]
+  }
+}]
