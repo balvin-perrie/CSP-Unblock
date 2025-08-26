@@ -1,10 +1,16 @@
 {
-  const once = () => chrome.storage.local.get({
-    'csp-1': true,
-    'csp-2': true,
-    'csp-3': true,
-    'csp-4': true
-  }, prefs => {
+  const once = async () => {
+    if (once.done) {
+      return;
+    }
+    once.done = true;
+
+    const prefs = await chrome.storage.local.get({
+      'csp-1': true,
+      'csp-2': true,
+      'csp-3': true,
+      'csp-4': true
+    });
     chrome.contextMenus.create({
       id: 'test',
       title: 'Open Test Page',
@@ -44,7 +50,7 @@
       type: 'checkbox',
       checked: prefs['csp-4']
     }, () => chrome.runtime.lastError);
-  });
+  };
 
   chrome.runtime.onStartup.addListener(once);
   chrome.runtime.onInstalled.addListener(once);

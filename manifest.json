@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "CSP Unblock",
   "description": "__MSG_description__",
   "default_locale": "en",
@@ -40,7 +40,7 @@
     "256": "data/icons/256.png",
     "512": "data/icons/512.png"
   },
-  "homepage_url": "https://add0n.com/csp-unblock.html",
+  "homepage_url": "https://webextension.org/listing/csp-unblock.html",
   "action":{},
   "background": {
     "service_worker": "worker.js"

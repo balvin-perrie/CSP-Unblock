@@ -1,12 +1,20 @@
 self.importScripts('context.js');
 
-const state = () => chrome.storage.local.get({
-  'enabled': false,
-  'csp-1': true,
-  'csp-2': true,
-  'csp-3': true,
-  'csp-4': true
-}, prefs => {
+const state = async () => {
+  if (state.busy) {
+    console.info('state is busy');
+    return;
+  }
+  state.busy = true;
+
+  const prefs = await chrome.storage.local.get({
+    'enabled': false,
+    'csp-1': true,
+    'csp-2': true,
+    'csp-3': true,
+    'csp-4': true
+  });
+
   const o = {
     enableRulesetIds: [],
     disableRulesetIds: []
@@ -36,9 +44,9 @@ const state = () => chrome.storage.local.get({
       }
     });
   }
-
-  chrome.declarativeNetRequest.updateEnabledRulesets(o);
-});
+  await chrome.declarativeNetRequest.updateEnabledRulesets(o);
+  state.busy = false;
+};
 state();
 chrome.storage.onChanged.addListener(ps => {
   if (ps.enabled || ps['csp-1'] || ps['csp-2'] || ps['csp-3'] || ps['csp-4']) {
@@ -47,18 +55,20 @@ chrome.storage.onChanged.addListener(ps => {
 });
 
 // action
-chrome.action.onClicked.addListener(() => chrome.storage.local.get({
-  enabled: false
-}, prefs => chrome.storage.local.set({
-  enabled: !prefs.enabled
-})));
+chrome.action.onClicked.addListener(async () => {
+  const prefs = await chrome.storage.local.get({
+    enabled: false
+  });
+  chrome.storage.local.set({
+    enabled: !prefs.enabled
+  });
+});
 
 /* FAQs & Feedback */
 {
   const {management, runtime: {onInstalled, setUninstallURL, getManifest}, storage, tabs} = chrome;
   if (navigator.webdriver !== true) {
-    const page = getManifest().homepage_url;
-    const {name, version} = getManifest();
+    const {homepage_url: page, name, version} = getManifest();
     onInstalled.addListener(({reason, previousVersion}) => {
       management.getSelf(({installType}) => installType === 'normal' && storage.local.get({
         'faqs': true,
@@ -67,7 +77,7 @@ chrome.action.onClicked.addListener(() => chrome.storage.local.get({
         if (reason === 'install' || (prefs.faqs && reason === 'update')) {
           const doUpdate = (Date.now() - prefs['last-update']) / 1000 / 60 / 60 / 24 > 45;
           if (doUpdate && previousVersion !== version) {
-            tabs.query({active: true, currentWindow: true}, tbs => tabs.create({
+            tabs.query({active: true, lastFocusedWindow: true}, tbs => tabs.create({
               url: page + '?version=' + version + (previousVersion ? '&p=' + previousVersion : '') + '&type=' + reason,
               active: reason === 'install',
               ...(tbs && tbs.length && {index: tbs[0].index + 1})
