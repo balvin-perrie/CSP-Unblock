@@ -1,4 +1,6 @@
-self.importScripts('context.js');
+if (typeof importScripts !== 'undefined') {
+  self.importScripts('context.js');
+}
 
 const state = async () => {
   if (state.busy) {
