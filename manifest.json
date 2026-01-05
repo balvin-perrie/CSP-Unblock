@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "CSP Unblock",
   "description": "__MSG_description__",
   "default_locale": "en",
@@ -29,6 +29,22 @@
       "id": "csp-4",
       "enabled": false,
       "path": "rulesets/csp-4.json"
+    }, {
+      "id": "csp-5",
+      "enabled": false,
+      "path": "rulesets/csp-5.json"
+    }, {
+      "id": "csp-6",
+      "enabled": false,
+      "path": "rulesets/csp-6.json"
+    }, {
+      "id": "csp-7",
+      "enabled": false,
+      "path": "rulesets/csp-7.json"
+    }, {
+      "id": "csp-8",
+      "enabled": false,
+      "path": "rulesets/csp-8.json"
     }]
   },
   "icons": {

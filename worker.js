@@ -12,7 +12,11 @@ const state = async () => {
     'csp-1': true,
     'csp-2': true,
     'csp-3': true,
-    'csp-4': true
+    'csp-4': true,
+    'csp-5': true,
+    'csp-6': true,
+    'csp-7': true,
+    'csp-8': true
   });
 
   const o = {
@@ -32,15 +36,19 @@ const state = async () => {
     o[prefs['csp-2'] ? 'enableRulesetIds' : 'disableRulesetIds'].push('csp-2');
     o[prefs['csp-3'] ? 'enableRulesetIds' : 'disableRulesetIds'].push('csp-3');
     o[prefs['csp-4'] ? 'enableRulesetIds' : 'disableRulesetIds'].push('csp-4');
+    o[prefs['csp-5'] ? 'enableRulesetIds' : 'disableRulesetIds'].push('csp-5');
+    o[prefs['csp-6'] ? 'enableRulesetIds' : 'disableRulesetIds'].push('csp-6');
+    o[prefs['csp-7'] ? 'enableRulesetIds' : 'disableRulesetIds'].push('csp-7');
+    o[prefs['csp-8'] ? 'enableRulesetIds' : 'disableRulesetIds'].push('csp-8');
   }
   else {
-    o.disableRulesetIds = ['csp-1', 'csp-2', 'csp-3', 'csp-4'];
+    o.disableRulesetIds = ['csp-1', 'csp-2', 'csp-3', 'csp-4', 'csp-5', 'csp-6', 'csp-7', 'csp-8'];
 
     chrome.action.setIcon({
       path: {
-        16: 'data/icons/disabled/16.png',
-        32: 'data/icons/disabled/32.png',
-        48: 'data/icons/disabled/48.png'
+        16: '/data/icons/disabled/16.png',
+        32: '/data/icons/disabled/32.png',
+        48: '/data/icons/disabled/48.png'
       }
     });
   }
@@ -49,7 +57,11 @@ const state = async () => {
 };
 state();
 chrome.storage.onChanged.addListener(ps => {
-  if (ps.enabled || ps['csp-1'] || ps['csp-2'] || ps['csp-3'] || ps['csp-4']) {
+  if (
+    ps.enabled ||
+    ps['csp-1'] || ps['csp-2'] || ps['csp-3'] || ps['csp-4'] ||
+    ps['csp-5'] || ps['csp-6'] || ps['csp-7'] || ps['csp-8']
+  ) {
     state();
   }
 });
